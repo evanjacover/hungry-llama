@@ -48,10 +48,14 @@ app.get("/game", function(req, res){
 
 var clients = [];
 io.sockets.on('connection', function (socket) {
-    game.addPlayer(socket.id);
     console.log(game.gameData);
     io.sockets.emit('blast', game.gameData);
     clients.push(socket);
+
+    socket.on('name', function(data){
+        console.log("received name=" + data.name);
+        game.addPlayer(socket.id, data.name)
+    });
 
     socket.on('blast', function(data, cb){
         console.log("data=" + data);
@@ -66,6 +70,7 @@ io.sockets.on('connection', function (socket) {
     });
 
     socket.on('disconnect', function() {
+        console.log("client disconnected");
         game.removePlayer(socket.id);
         clients.splice(clients.indexOf(socket));
     });

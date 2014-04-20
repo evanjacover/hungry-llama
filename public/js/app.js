@@ -19,12 +19,24 @@ $(function(){
         $clearAllPosts = $('#clearAllPosts'),
         $sendBlastButton = $('#send');
 
+    var urlsplits = window.location.href.split("=");
+    var playerName = (urlsplits.length > 1) ? decodeURIComponent(urlsplits[1]) : "Unknown";
+
+    $("#submit").click(function() {
+        socket.emit("answer", {player:"me", answer:["strawberry"]});
+        console.log("send answer");
+    });
 
     //SOCKET STUFF
+    socket.on("connect", function(data) {
+        // send name
+        socket.emit("name", {name:playerName});
+    });
+
     socket.on("blast", function(data){
         console.log(data);
 
-        // update game state
+        // update game state        
         $('#question-image').attr('src', 'img/questions/' + (data.question.id) + '.png');
         $('#choice-buttons').empty();
         var numOptions = data.question.options.length; 

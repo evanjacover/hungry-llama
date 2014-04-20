@@ -38,12 +38,21 @@ HungryLlama.STATE_WAITING = "waiting";
 HungryLlama.STATE_PLAYING = "playing";
 HungryLlama.EVENT_DATA_CHANGED = "data";
 
-HungryLlama.prototype.addPlayer = function(id) {
-    this.players.push({id:id, score:0, name:"test"});
+HungryLlama.prototype.addPlayer = function(id, name) {    
+    this.players.push({id:id, score:0, name:name});
+    if (this.players.length == 1)
+        this.startGame();
 };
 
 HungryLlama.prototype.removePlayer = function(id) {
-
+    for (var i=0; i<this.players.length; i++) {
+        if (this.players[i].id == id) {
+            this.players.splice(i, 1);
+            break;
+        }
+    }
+    if (this.players.length == 0)
+        this.resetGame();
 };
 
 /* Class implementation */
