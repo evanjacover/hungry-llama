@@ -14,7 +14,7 @@ var device  = require('express-device');
 var HungryLlama = require('./modules/hungry-llama.js');
 var game = new HungryLlama();
 
-var runningPortNumber = process.env.PORT;
+var runningPortNumber = process.env.PORT || 3000;
 
 app.configure(function(){
     // I need to access everything in '/public' directly
@@ -48,8 +48,7 @@ app.get("/game", function(req, res){
 
 var clients = [];
 game.on(HungryLlama.EVENT_DATA_CHANGED, function(data) {
-    console.log("data changed event:");
-    console.log(data);
+    io.sockets.emit('blast', game.gameData);
 });
 
 io.sockets.on('connection', function (socket) {

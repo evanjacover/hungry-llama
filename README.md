@@ -15,3 +15,8 @@ Oh, and Edmund only communicates through digital logic diagrams. He's weird like
 - Tutorial to walk through different symbols and how they work
 - Timer on questions. Score based on time, not just first correct
 - Don't send socket ids in game data
+- Better way to send names into game other than the url
+- Some sort of score reward/reveal moment
+- Show that answer was wrong when submitted
+- Use a SPA framework for the front-end: Backbone?
+- Make a build process that produces production-ready minified and uglified files

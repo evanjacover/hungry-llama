@@ -91,21 +91,11 @@ HungryLlama.prototype.setQuestion = function(n) {
 HungryLlama.prototype.answered = function(id, data) {
     var p = this.findPlayer(id);
     if (p) {
-        var correctAnswers = this.questions[this.gameData.questionNum].correct;
-        var isCorrect = true;
-        if (correctAnswers.length != data.answer.length)
-            isCorrect = false;
-        for (var i=0; i<data.answer.length; i++) {
-            if (!correctAnswers.contains(data.answer[i])) {
-                isCorrect = false;
-                break;
-            }
-        }
-
         // This player got it right first. Award points and move on to the next question
-        if (isCorrect) {
+        if (this.isCorrectAnswer(data.answer, this.gameData.questionNum)) {
             p.score += 100;
             this.gameData.lastCorrectPlayer = p.id;
+            this.sortPlayers();
             this.nextQuestion();
             return true;
         }
@@ -120,16 +110,38 @@ HungryLlama.prototype.dataChanged = function() {
 HungryLlama.prototype.findPlayer = function(id) {
     var len = this.gameData.players.length;
     for (var i=0; i<len; i++) {
-        if (this.gameData.players[i].id == id)
+        if (this.gameData.players[i].id == id) {
             return this.gameData.players[i];
+        }
     }
     return null;
-}
+};
 
 HungryLlama.prototype.sortPlayers = function() {
     this.gameData.players.sort(function(a, b) { 
-        return a.score - b.score;
+        return b.score - a.score;
     });
+};
+
+HungryLlama.prototype.isCorrectAnswer = function(answer, questionNum) {
+    var correctAnswers = this.questions[questionNum].correct;
+    var isCorrect = true;
+    if (correctAnswers.length != answer.length) {
+        return false;
+    }
+    for (var i=0; i<answer.length; i++) {
+        var found = false;
+        for (var j=0; j<correctAnswers.length; j++) {
+            if (answer[i] == correctAnswers[j]) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            return false;
+        }
+    }
+    return true;
 };
 
 module.exports = HungryLlama;

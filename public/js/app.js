@@ -64,6 +64,18 @@ $(function(){
 
             currentQuestion = data.question.id;
         }
+        if (data.players) {
+            $('#players-table').find('tr:gt(0)').remove();
+            for (var i=0; i<data.players.length; i++) {
+                var trTag = '<tr>';
+                if (data.players[i].id == data.lastCorrectPlayer) {
+                    trTag = '<tr class="success">';
+                }
+                var rowString = trTag + '<td>' + data.players[i].name + '</td><td>' + data.players[i].score + '</td></tr>';
+                $('#players-table tr:last').after(rowString);
+            }
+        }
+
     });
     
     $clearAllPosts.click(function(e){
