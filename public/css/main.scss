@@ -1,4 +1,13 @@
-.col-centered {
-    float: none;
-    margin: 0 auto;
+#bg {
+	background:url('../img/hungry-llama-title.jpg') no-repeat center center;
+    height: 400px;
+    width: 100%;
+}
+
+#play {
+	position:relative;
+	left:40px;
+	top:20px;
+	height:200px;
+	width:400px;
 }

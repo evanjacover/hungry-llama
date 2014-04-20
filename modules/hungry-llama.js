@@ -26,6 +26,7 @@ var HungryLlama = function() {
         },             
     ];
 
+    this.players = [];
     this.gameData = {};
     this.resetGame();
     events.EventEmitter.call(this);
@@ -36,6 +37,14 @@ util.inherits(HungryLlama, events.EventEmitter);
 HungryLlama.STATE_WAITING = "waiting";
 HungryLlama.STATE_PLAYING = "playing";
 HungryLlama.EVENT_DATA_CHANGED = "data";
+
+HungryLlama.prototype.addPlayer = function(id) {
+    this.players.push({id:id, score:0, name:"test"});
+};
+
+HungryLlama.prototype.removePlayer = function(id) {
+
+};
 
 /* Class implementation */
 HungryLlama.prototype.resetGame = function() {

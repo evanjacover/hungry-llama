@@ -20,16 +20,11 @@ $(function(){
         $sendBlastButton = $('#send');
 
 
-    $("#submit").click(function() {
-        socket.emit("answer", {player:"me", answer:["strawberry"]});
-        console.log("send answer");
-    });
-
     //SOCKET STUFF
     socket.on("blast", function(data){
         console.log(data);
 
-        // update game state        
+        // update game state
         $('#question-image').attr('src', 'img/questions/' + (data.question.id) + '.png');
         $('#choice-buttons').empty();
         var numOptions = data.question.options.length; 

@@ -40,23 +40,34 @@ app.use(function(req, res, next){
 app.get("/", function(req, res){
     res.render('index', {});
 });
+app.get("/game", function(req, res){
+    var obj = {};
+    obj.name = req.query.name;
+    res.render('game', obj);
+});
 
+var clients = [];
 io.sockets.on('connection', function (socket) {
-    game.startGame();
+    game.addPlayer(socket.id);
     console.log(game.gameData);
     io.sockets.emit('blast', game.gameData);
+    clients.push(socket);
 
-    socket.on('blast', function(data, fn){
+    socket.on('blast', function(data, cb){
         console.log("data=" + data);
         io.sockets.emit('blast', {msg:data.msg});
-
-        fn();//call the client back to clear out the field
+        cb();
     });
 
     socket.on('answer', function(data, fn) {
         console.log("answer data=" + data);
         game.nextQuestion();
         io.sockets.emit('blast', game.gameData);
+    });
+
+    socket.on('disconnect', function() {
+        game.removePlayer(socket.id);
+        clients.splice(clients.indexOf(socket));
     });
 
 });

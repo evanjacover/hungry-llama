@@ -10,81 +10,41 @@
         <link rel="stylesheet" href="css/core.css">
         <link rel="stylesheet" href="css/main.css">
 
-        <style>
-
-        	input:focus,
-			select:focus,
-			textarea:focus,
-			button:focus {
-			    outline: none !important;
-			}
-
-        	#allPosts {
-			    resize: none;
-			    font-size: 12px;
-			    border-radius: 5px;
-			    border: #ccc solid 1px;
-			    line-height: 14px;
-			    height:100px;
-			    overflow: scroll;
-			}
-
-			p{
-		    	margin:0;
-		    	padding:0;
-		    }
-
-		</style>
     </head>
     <body>
 
-	<!--[if lt IE 8]>
-		<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-	<![endif]-->
+    <!--[if lt IE 8]>
+        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
 
     <div class="container">
-    	<div class="jumbotron">
-    		<div class="row">
-    			<div class="col-md-8 col-md-offset-2">
-		    		<img id="question-image" src="img/questions/1.png" class="img-responsive"/>
-				</div>		    		
-	    	</div>
-       		<!--
-       		<div class="row">
-       			<div class="col-md-4 col-sm-6 col-xs-6">
-       				<h3>All Chatter<button id="clearAllPosts" type="button" class="btn btn-danger btn-xs pull-right">clear</button></h3>
-       				<div id="allPosts" class="form-control"></div>
-				    <div class="input-group">
-						<input id="blast" type="text" class="form-control" placeholder="send something to everyone">
-						<span class="input-group-btn">
-							<button id="send" class="btn btn-success" type="button">Send</button>
-						</span>
-				    </div>
-       			</div>
-       		</div>
-       		-->
-		</div>
-    	<div class="row" id="choice-buttons">
-    		<button type="button" class="btn btn-default btn-lg active"><img src="img/blueberry.png"/></button>
-    		<button type="button" class="btn btn-default btn-lg"><img src="img/strawberry.png"/></button>
-    		<button type="button" class="btn btn-default btn-lg"><img src="img/strawberry.png"/></button>
-    	</div>		
-    	<div class="row">
-	   		<button type="button" id="submit" class="btn btn-success btn-lg">Submit</button>
-    	</div>    	
-	</div>
+        <div id="bg">
+            <div id="play">
+                <form class="form-inline" role="form">
+                    <div class="form-group">
+                        <input type="name" class="form-control input-lg" id="name" placeholder="Name"/>
+                    </div>
+                    <button type="button" class="btn btn-primary btn-lg" id="start-game">Play Now</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-10 col-md-offset-1">
+            <h2>Edmund is a very hungry llama.<br/>You might say he's the hungriest llama.</h2>
+            <p>The problem is that he's very picky. Llamas can be total divas. Somedays he only likes fruit. Others
+                he only likes red fruit. Sometimes he'll eat anything with cheese except pizza.</p>
+            <p>The good news is Edmund will tell you exactly what he wants.</p>
+            <p>The bad news is he will only do so using logic diagrams.</p>
+            <h3>Wait. What?</h3>
+            <p>Logic diagrams are used by engineers to describe how circuits work. You can learn more about the
+                different logic symbols on <a href="http://en.wikipedia.org/wiki/Logic_gate">Wikipedia</a>, of course.</p>
+        </div>                  
+    </div>
     
     <!-- jQuery --> 
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-	<script>window.jQuery || document.write('<script src="public/bower_components/jQuery/jquery.min.js"><\/script>')</script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="public/bower_components/jQuery/jquery.min.js"><\/script>')</script>
 
-    <!-- socket.io -->
-    <script src="/socket.io/socket.io.js"></script>
-
-	<!-- APP CODE -->
-	<script src="js/app.js"></script>  
-
-	<!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>
         (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
         function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
@@ -92,6 +52,21 @@
         e.src='//www.google-analytics.com/analytics.js';
         r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
         ga('create','UA-XXXXX-X');ga('send','pageview');
+    </script>
+    <script>
+        $(function(){
+            $("#submit").click(function() {
+                socket.emit("answer", {player:"me", answer:["strawberry"]});
+                console.log("send answer");
+            });
+
+            $("#start-game").click(function() {
+                if ($("#name").val().length == 0) {
+                    alert("You need to enter a name to play");
+                }
+                window.location.href = "/game?n=" + $("#name").val();
+            });
+        });
     </script>
     </body>
 </html>

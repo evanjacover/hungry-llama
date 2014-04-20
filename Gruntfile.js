@@ -62,6 +62,7 @@ module.exports = function (grunt) {
         },
         files: {
           'public/css/core.css': 'public/bower_components/sass-bootstrap/lib/bootstrap.scss',
+          'public/css/main.css': 'public/css/main.scss',
         }
       }
     },    
@@ -118,8 +119,9 @@ module.exports = function (grunt) {
         },
         sass: {
             files: [
-                'public/css/**/*.css',
+                'public/css/**/*.scss',
             ],
+            tasks:['sass']
         },
         express: {
             files:  [ 'server.js', 'modules/**/*.js', '!**/node_modules/**', '!Gruntfile.js' ],
