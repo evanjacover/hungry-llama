@@ -11,6 +11,8 @@ var server = require('http').createServer(app)
 var io = require('socket.io').listen(server);
 var device  = require('express-device');
 
+var HungryLlama = require('./modules/hungry-llama.js');
+
 var runningPortNumber = process.env.PORT;
 
 
