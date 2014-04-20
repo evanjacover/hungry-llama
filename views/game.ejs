@@ -10,31 +10,6 @@
         <link rel="stylesheet" href="css/core.css">
         <link rel="stylesheet" href="css/main.css">
 
-        <style>
-
-        	input:focus,
-			select:focus,
-			textarea:focus,
-			button:focus {
-			    outline: none !important;
-			}
-
-        	#allPosts {
-			    resize: none;
-			    font-size: 12px;
-			    border-radius: 5px;
-			    border: #ccc solid 1px;
-			    line-height: 14px;
-			    height:100px;
-			    overflow: scroll;
-			}
-
-			p{
-		    	margin:0;
-		    	padding:0;
-		    }
-
-		</style>
     </head>
     <body>
 
@@ -45,24 +20,13 @@
     <div class="container">
     	<div class="jumbotron">
     		<div class="row">
-    			<div class="col-md-8 col-md-offset-2">
+    			<div class="col-md-8">
 		    		<img id="question-image" src="img/questions/1.png" class="img-responsive"/>
-				</div>		    		
+				</div>		 
+                <div class="col-md-4">
+                    Scores
+                </div>
 	    	</div>
-       		<!--
-       		<div class="row">
-       			<div class="col-md-4 col-sm-6 col-xs-6">
-       				<h3>All Chatter<button id="clearAllPosts" type="button" class="btn btn-danger btn-xs pull-right">clear</button></h3>
-       				<div id="allPosts" class="form-control"></div>
-				    <div class="input-group">
-						<input id="blast" type="text" class="form-control" placeholder="send something to everyone">
-						<span class="input-group-btn">
-							<button id="send" class="btn btn-success" type="button">Send</button>
-						</span>
-				    </div>
-       			</div>
-       		</div>
-       		-->
 		</div>
     	<div class="row" id="choice-buttons">
     		<button type="button" class="btn btn-default btn-lg active"><img src="img/blueberry.png"/></button>

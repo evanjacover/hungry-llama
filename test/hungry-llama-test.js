@@ -54,7 +54,7 @@ describe('Hungry Llama Game', function() {
   describe('Player join/leave', function() {
     describe('Empty player list', function() {
       var game = new HungryLlama();
-      assert.equal(0, game.players.length);
+      assert.equal(0, game.gameData.players.length);
     });
 
     describe('Add and remove a single player', function() {
@@ -62,12 +62,12 @@ describe('Hungry Llama Game', function() {
       var id = "id1";
       var name = "Shakira";
       game.addPlayer(id, name);
-      assert.equal(1, game.players.length);
-      assert.equal(id, game.players[0].id);
-      assert.equal(name, game.players[0].name);
-      assert.equal(0, game.players[0].score);
+      assert.equal(1, game.gameData.players.length);
+      assert.equal(id, game.gameData.players[0].id);
+      assert.equal(name, game.gameData.players[0].name);
+      assert.equal(0, game.gameData.players[0].score);
       game.removePlayer(id);
-      assert.equal(0, game.players.length);
+      assert.equal(0, game.gameData.players.length);
     });    
 
     describe('Game starts when a player joins and resets when empty', function() {
@@ -80,7 +80,19 @@ describe('Hungry Llama Game', function() {
       game.removePlayer(id);
       assert.equal(HungryLlama.STATE_WAITING, game.gameData.state);
     });  
+  });
 
+  describe('Game events', function() {
+    var game = new HungryLlama();
+    it('should fire events when data changes', function(done) {
+      game.on(HungryLlama.EVENT_DATA_CHANGED, function(data) {
+        assert.equal(HungryLlama.STATE_PLAYING, data.state);
+        assert.equal("test", data.players[0].id);
+        assert.equal("test", data.players[0].name);
+        done();
+      });
+      game.addPlayer("test", "test");
+    });
   });
 
 

@@ -47,6 +47,11 @@ app.get("/game", function(req, res){
 });
 
 var clients = [];
+game.on(HungryLlama.EVENT_DATA_CHANGED, function(data) {
+    console.log("data changed event:");
+    console.log(data);
+});
+
 io.sockets.on('connection', function (socket) {
     io.sockets.emit('blast', game.gameData);
     clients.push(socket);

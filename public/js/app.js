@@ -21,6 +21,7 @@ $(function(){
 
     var urlsplits = window.location.href.split("=");
     var playerName = (urlsplits.length > 1) ? decodeURIComponent(urlsplits[1]) : "Unknown";
+    var currentQuestion = null;
 
     $("#submit").click(function() {
         var answers = [];
@@ -29,7 +30,7 @@ $(function(){
                 answers.push($( this ).attr("data-id"));
             }
         });
-        socket.emit("answer", {player:"me", answer:answers});
+        socket.emit("answer", {answer:answers});
         console.log("send answer");
     });
 
@@ -40,24 +41,29 @@ $(function(){
     });
 
     socket.on("blast", function(data){
-        if (data.state == "waiting")
-            return;
         console.log(data);
 
-        // update game state        
-        $('#question-image').attr('src', 'img/questions/' + (data.question.id) + '.png');
-        $('#choice-buttons').empty();
-        var numOptions = data.question.options.length; 
-        var buttonHTML = "";
-        for (var i=0; i<numOptions; i++) {
-            buttonHTML += '<button type="button" data-id="' + data.question.options[i] + '" class="btn btn-default btn-lg toggle-button"><img src="img/' + data.question.options[i] + '.png"/></button> ';
-        }
-        $('#choice-buttons').html(buttonHTML);
+        if (data.state == "waiting")
+            return;
 
-        // Choose options
-        $(".toggle-button").click(function() {
-            $( this ).toggleClass('btn-info');
-        });    
+        // update game question state
+        if (data.question.id != currentQuestion)  {
+            $('#question-image').attr('src', 'img/questions/' + (data.question.id) + '.png');
+            $('#choice-buttons').empty();
+            var numOptions = data.question.options.length; 
+            var buttonHTML = "";
+            for (var i=0; i<numOptions; i++) {
+                buttonHTML += '<button type="button" data-id="' + data.question.options[i] + '" class="btn btn-default btn-lg toggle-button"><img src="img/' + data.question.options[i] + '.png"/></button> ';
+            }
+            $('#choice-buttons').html(buttonHTML);
+
+            // Choose options
+            $(".toggle-button").click(function() {
+                $( this ).toggleClass('btn-info');
+            });    
+
+            currentQuestion = data.question.id;
+        }
     });
     
     $clearAllPosts.click(function(e){
