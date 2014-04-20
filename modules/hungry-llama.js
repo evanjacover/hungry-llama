@@ -40,8 +40,9 @@ HungryLlama.EVENT_DATA_CHANGED = "data";
 
 HungryLlama.prototype.addPlayer = function(id, name) {    
     this.players.push({id:id, score:0, name:name});
-    if (this.players.length == 1)
+    if (this.players.length == 1) {
         this.startGame();
+    }
 };
 
 HungryLlama.prototype.removePlayer = function(id) {
@@ -51,8 +52,9 @@ HungryLlama.prototype.removePlayer = function(id) {
             break;
         }
     }
-    if (this.players.length == 0)
+    if (this.players.length === 0) {
         this.resetGame();
+    }
 };
 
 /* Class implementation */
@@ -78,6 +80,11 @@ HungryLlama.prototype.nextQuestion = function() {
 HungryLlama.prototype.setQuestion = function(n) {
     this.gameData.questionNum = n;
     this.gameData.question = this.questions[n];
+};
+
+HungryLlama.prototype.answered = function(id, data) {
+    console.log(data);
+
 };
 
 HungryLlama.prototype.onDataChanged = function() {

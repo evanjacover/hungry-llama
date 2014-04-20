@@ -48,13 +48,11 @@ app.get("/game", function(req, res){
 
 var clients = [];
 io.sockets.on('connection', function (socket) {
-    console.log(game.gameData);
     io.sockets.emit('blast', game.gameData);
     clients.push(socket);
 
     socket.on('name', function(data){
-        console.log("received name=" + data.name);
-        game.addPlayer(socket.id, data.name)
+        game.addPlayer(socket.id, data.name);
     });
 
     socket.on('blast', function(data, cb){
@@ -65,8 +63,7 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('answer', function(data, fn) {
         console.log("answer data=" + data);
-        game.nextQuestion();
-        io.sockets.emit('blast', game.gameData);
+        game.answered(socket.id, data);
     });
 
     socket.on('disconnect', function() {

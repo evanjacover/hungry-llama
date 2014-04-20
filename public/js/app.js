@@ -23,7 +23,13 @@ $(function(){
     var playerName = (urlsplits.length > 1) ? decodeURIComponent(urlsplits[1]) : "Unknown";
 
     $("#submit").click(function() {
-        socket.emit("answer", {player:"me", answer:["strawberry"]});
+        var answers = [];
+        $(".toggle-button").each(function(i) {
+            if ($( this ).hasClass('btn-info')) {
+                answers.push($( this ).attr("data-id"));
+            }
+        });
+        socket.emit("answer", {player:"me", answer:answers});
         console.log("send answer");
     });
 
@@ -34,6 +40,8 @@ $(function(){
     });
 
     socket.on("blast", function(data){
+        if (data.state == "waiting")
+            return;
         console.log(data);
 
         // update game state        
