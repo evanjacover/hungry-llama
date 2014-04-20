@@ -20,7 +20,7 @@ describe('Hungry Llama Game', function() {
   	game.nextQuestion();
 
     it('should have question 0 active', function() {
-      //assert.equal(HungryLlama.STATE_PLAYING, game.gameData.state);
+      assert.equal(HungryLlama.STATE_PLAYING, game.gameData.state);
       assert.equal(game.gameData.questionNum, 0);
       assert.equal(game.gameData.question.id, HungryLlama.questions[0].id);
     });
