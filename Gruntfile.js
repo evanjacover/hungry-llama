@@ -2,18 +2,36 @@
 'use strict';
 var moment = require('moment');
  
-var LIVERELOAD_PORT = 35729;
+//var LIVERELOAD_PORT = 35729;
 var RUNNING_PORT = 1337; // <- if you change this, you need to change in public/js/app.js and recompile
-var lrSnippet = require('connect-livereload')({port: LIVERELOAD_PORT});
-var mountFolder = function (connect, dir) {
-  return connect.static(require('path').resolve(dir));
-};
  
 module.exports = function (grunt) {
   // load all grunt tasks
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
  
   grunt.initConfig({
+
+  express: {
+      options: {
+        port:RUNNING_PORT
+      },
+      dev: {
+        options: {
+          script: 'server.js'
+        }
+      },
+      prod: {
+        options: {
+          script: 'server.js',
+          node_env: 'production'
+        }
+      },
+      test: {
+        options: {
+          script: 'server.js'
+        }
+      }
+    },
 
     cssmin: {
       combine: {
@@ -36,7 +54,7 @@ module.exports = function (grunt) {
         }
       }
     },
-    
+
     sass: {
       dist: {
         options: {
@@ -46,18 +64,7 @@ module.exports = function (grunt) {
           'public/css/core.css': 'public/bower_components/sass-bootstrap/lib/bootstrap.scss',
         }
       }
-    },
-
-    stylus: {
-      compile: {
-        options: {
-          compress:true
-        },
-        files: {
-          'public/css/core.css': 'public/bower_components/bootstrap-stylus/stylus/bootstrap.styl'
-        }
-      }
-    },
+    },    
 
     concat: {
       options: {
@@ -82,7 +89,7 @@ module.exports = function (grunt) {
         }
       },
       files:{
-        src:['public/js/concat.js']
+        src:['public/js/concat.js', 'server.js', 'modules/**/*.js']
       } 
     },
 
@@ -105,22 +112,18 @@ module.exports = function (grunt) {
         },
         scripts: {
             files: [
-                'public/js/**/*.js'
+                'public/js/**/*.js', '!public/js/app.min.js', '!public/js/concat.js'
             ],
-            tasks:['build']
+            tasks:['jshint'],
         },
-        css: {
+        sass: {
             files: [
                 'public/css/**/*.css',
             ],
         },
-        less: {
-            files: ['public/bower_components/bootstrap/less/**/*.less'],
-            tasks: ['build']
-        },
         express: {
             files:  [ 'server.js', 'modules/**/*.js', '!**/node_modules/**', '!Gruntfile.js' ],
-            tasks:  [ 'watch' ],
+            tasks:  [ 'express:dev' ],
             options: {
                 nospawn: true // Without this option specified express won't be reloaded
             }
@@ -128,51 +131,20 @@ module.exports = function (grunt) {
     },
 
     connect: {
-      options: {
-        port: RUNNING_PORT,//variable at top of this file
-        // change this to '0.0.0.0' to access the server from outside
-        hostname: 'localhost'
-      },
-      livereload: {
+      all: {
         options: {
-          middleware: function (connect) {
+          port: RUNNING_PORT,//variable at top of this file
+          // change this to '0.0.0.0' to access the server from outside
+          hostname: 'localhost',
+
+          middleware: function(connect, options) {
             return [
-              lrSnippet,
-              mountFolder(connect, '.')
+              require('grunt-contrib-livereload/lib/utils').livereloadSnippet,
+              connect.static(options.base)
             ];
-          }
+          }          
         }
       }
-    },
-
-    nodemon:{
-      dev: {
-        options: {
-          file: 'server.js',
-          //args: ['dev'],
-          //nodeArgs: ['--debug'],
-          ignoredFiles: ['node_modules/**'],
-          //watchedExtensions: ['js'],
-          watchedFolders: ['views', 'routes'],
-          //delayTime: 1,
-          legacyWatch: true,
-          env: {
-            PORT: RUNNING_PORT
-          },
-          cwd: __dirname
-        }
-      }
-    },
-
-    // run 'watch' and 'nodemon' indefinitely, together
-    // 'launch' will just kick it off, and won't stay running
-    concurrent: {
-        target: {
-            tasks: ['nodemon', 'watch', 'launch'],
-            options: {
-                logConcurrentOutput: true
-            }
-        }
     },
 
     wait:{
@@ -199,12 +171,9 @@ module.exports = function (grunt) {
 
   });
  
-  //grunt.registerTask('server', ['build', 'connect:livereload', 'open', 'watch']);
- 
-  grunt.registerTask('build', ['sass', 'concat', 'uglify']);
-
+  grunt.registerTask('server', ['sass', 'jshint', 'express:dev', 'open', 'watch']);
+  grunt.registerTask('build', ['sass', 'concat', 'jshint', 'uglify']);
   grunt.registerTask('launch', ['wait', 'open']);
-
-  grunt.registerTask('default', ['build', 'concurrent']);
+  grunt.registerTask('default', ['build', 'express:dev', 'watch']);
 
 };
