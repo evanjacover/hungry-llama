@@ -8,6 +8,9 @@ Oh, and Edmund only communicates through digital logic diagrams. He's weird like
 
 (Hat tip to the Apple II game Rocky's Boots, one of my favorites.)
 
+## How to Play
+
+
 ## Strike List
 - Integration tests
 - Don't send whole data blob with every change
@@ -25,3 +28,5 @@ Oh, and Edmund only communicates through digital logic diagrams. He's weird like
 - Set logging based on environment
 - Run mocha tests with grunt builds
 - Add more content
+- Accept ENTER key to join game instead of just mouse clicks
+- Deal with "first-player" more fairly to account for latency.
