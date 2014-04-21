@@ -125,12 +125,17 @@ HungryLlama.prototype.sortPlayers = function() {
 
 HungryLlama.prototype.isCorrectAnswer = function(answer, questionNum) {
     var correctAnswers = this.questions[questionNum].correct;
+    answer.sort();
     var isCorrect = true;
     if (correctAnswers.length != answer.length) {
         return false;
     }
+    var lastAnswer = null;
     for (var i=0; i<answer.length; i++) {
         var found = false;
+        if (answer[i] == lastAnswer) {
+            return false;
+        }
         for (var j=0; j<correctAnswers.length; j++) {
             if (answer[i] == correctAnswers[j]) {
                 found = true;
@@ -140,6 +145,7 @@ HungryLlama.prototype.isCorrectAnswer = function(answer, questionNum) {
         if (!found) {
             return false;
         }
+        lastAnswer = answer[i];
     }
     return true;
 };

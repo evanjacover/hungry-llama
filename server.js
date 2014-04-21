@@ -77,3 +77,4 @@ io.sockets.on('connection', function (socket) {
 
 server.listen(runningPortNumber);
 
+module.exports = app;

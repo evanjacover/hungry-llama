@@ -10,8 +10,7 @@
     "express": "~3.4.6",
     "socket.io": "~0.9.16",
     "ejs": "~0.8.5",
-    "express-device": "~0.3.7",
-    "chai": "~1.9.1"
+    "express-device": "~0.3.7"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
@@ -31,7 +30,11 @@
     "grunt-open": "~0.2.2",
     "grunt-wait": "~0.1.0",
     "matchdep": "~0.1.2",
-    "moment": "~2.0.0"
+    "moment": "~2.0.0",
+    "chai": "~1.9.1",
+    "mocha": "~1.18.2",
+    "supertest": "0.8.0",
+    "async": "0.2.9"
   },
   "engines": {
     "node": ">=0.10.0"

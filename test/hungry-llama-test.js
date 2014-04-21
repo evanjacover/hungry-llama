@@ -1,7 +1,7 @@
 var chai = require('chai');
 var assert = chai.assert;
 
-describe('Hungry Llama Game', function() {
+describe('Hungry Llama Game Model', function() {
   var HungryLlama = require('../modules/hungry-llama');
 
   describe('Inital State', function() {
@@ -95,5 +95,18 @@ describe('Hungry Llama Game', function() {
     });
   });
 
+  describe('Correct answer logic', function() {
+    var game = new HungryLlama();
+    it('should determine incorrect answers', function() {
+      assert.isFalse(game.isCorrectAnswer([], 0));
+      assert.isFalse(game.isCorrectAnswer(["strawberry"], 0));
+      assert.isFalse(game.isCorrectAnswer(["blueberry", "blueberry"], 0));
+      assert.isTrue(game.isCorrectAnswer(["blueberry"], 0));
+      assert.isFalse(game.isCorrectAnswer([], 1));
+      assert.isFalse(game.isCorrectAnswer(["strawberry"], 1));
+      assert.isFalse(game.isCorrectAnswer(["blueberry", "blueberry", "blueberry"], 1));
+      assert.isTrue(game.isCorrectAnswer(["strawberry", "blueberry", "lettuce"], 1));
+    });
+  });
 
 });

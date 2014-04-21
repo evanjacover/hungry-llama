@@ -23,3 +23,5 @@ Oh, and Edmund only communicates through digital logic diagrams. He's weird like
 - ~~Don't hard-code socket.io connection string in client~~
 - ~~Get working on Heroku~~
 - Set logging based on environment
+- Run mocha tests with grunt builds
+- Add more content
