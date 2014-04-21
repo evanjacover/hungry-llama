@@ -11,7 +11,6 @@ if (document.location.port)
     connectionString += ':' + document.location.port;
 connectionString += '/';
 var socket = io.connect(connectionString);
-console.log(connectionString);
 var app = app || {};
 
 
@@ -36,7 +35,6 @@ $(function(){
             }
         });
         socket.emit("answer", {answer:answers});
-        console.log("send answer");
     });
 
     //SOCKET STUFF
@@ -46,8 +44,6 @@ $(function(){
     });
 
     socket.on("blast", function(data){
-        console.log(data);
-
         if (data.state == "waiting")
             return;
 

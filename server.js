@@ -60,25 +60,20 @@ io.sockets.on('connection', function (socket) {
     });
 
     socket.on('blast', function(data, cb){
-        console.log("data=" + data);
         io.sockets.emit('blast', {msg:data.msg});
         cb();
     });
 
     socket.on('answer', function(data, fn) {
-        console.log("answer data=" + data);
         game.answered(socket.id, data);
     });
 
     socket.on('disconnect', function() {
-        console.log("client disconnected");
         game.removePlayer(socket.id);
         clients.splice(clients.indexOf(socket));
     });
 
 });
-
-
 
 server.listen(runningPortNumber);
 

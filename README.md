@@ -21,3 +21,5 @@ Oh, and Edmund only communicates through digital logic diagrams. He's weird like
 - Use a SPA framework for the front-end: Backbone?
 - Make a build process that produces production-ready minified and uglified files
 - ~~Don't hard-code socket.io connection string in client~~
+- ~~Get working on Heroku~~
+- Set logging based on environment
