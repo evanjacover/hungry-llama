@@ -6,8 +6,12 @@
 
 // connect to our socket server
 
-var socket = io.connect('http://' + document.location.hostname + ':1337/');
-console.log(document.location.hostname);
+var connectionString = 'http://' + document.location.hostname;
+if (document.location.port)
+    connectionString += ':' + document.location.port;
+connectionString += '/';
+var socket = io.connect(connectionString);
+console.log(connectionString);
 var app = app || {};
 
 
