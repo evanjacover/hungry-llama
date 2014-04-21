@@ -9,7 +9,7 @@ Oh, and Edmund only communicates through digital logic diagrams. He's weird like
 (Hat tip to the Apple II game Rocky's Boots, one of my favorites.)
 
 ## How to Play
-
+For each question, you will see a logic diagram describing what Edmund wants to eat. Underneath the logic diagram are several food items. You can toggle each tasty snack on and off by clicking it. Your goal is to choose which foods Edmund will eat. The first player to correctly select the correct food and click submit gets 100 points and we all move on to the next question.
 
 ## Strike List
 - Integration tests
